@@ -1,7 +1,7 @@
 function App() {
   return (
     <>
-      <h1>My App</h1>
+      <h1 className="bg-secondary">My App</h1>
     </>
   )
 }
