@@ -14,7 +14,8 @@ const Navbar = () => {
     return false
   }
   return (
-    <footer className="fixed bottom-0 left-0 right-0">
+    <footer className="fixed bottom-0 left-0 right-0 ">
+      {/* */}
       <ul className="navbar w-full bg-base-100  mx-auto shadow-sm">
         <li
           className="navbar-start flex flex-col"

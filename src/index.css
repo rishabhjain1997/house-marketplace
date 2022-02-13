@@ -2,15 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-.navbar-custom {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  height: 85px;
-  background-color: #ffffff;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* html,
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f2f4f8;
+  height: 100%;
+  margin: 0;
+  box-sizing: border-box;
+} */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body,
+html {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f2f4f8;
+  margin: 0;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.emailInput {
+  background: url("./assets/svg/personIcon.svg") #ffffff 2.5% center no-repeat;
+}
+
+.passwordInput {
+  background: url("./assets/svg/lockIcon.svg") #ffffff 2.5% center no-repeat;
+}
+
+.nameInput {
+  background: url("./assets/svg/badgeIcon.svg") #ffffff 2.5% center no-repeat;
 }
