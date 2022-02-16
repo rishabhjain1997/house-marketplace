@@ -6,6 +6,7 @@ import visibilityIcon from "../assets/svg/visibilityIcon.svg"
 import { db } from "../firebase.config"
 import { doc, serverTimestamp, setDoc } from "firebase/firestore"
 import { toast } from "react-toastify"
+import OAuth from "../components/OAuth"
 
 import {
   getAuth,
@@ -117,7 +118,7 @@ const SignUp = () => {
             </button>
           </div>
         </form>
-        {/* {Google OAuth} */}
+        <OAuth />
 
         <div className="w-full mt-8 mx-auto flex justify-center">
           <Link to="/sign-in" className="text-accent font-bold">

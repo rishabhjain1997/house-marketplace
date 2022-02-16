@@ -3,9 +3,10 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg"
 import visibilityIcon from "../assets/svg/visibilityIcon.svg"
-import { db } from "../firebase.config"
+import { updateDoc } from "firebase/firestore"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { toast } from "react-toastify"
+import OAuth from "../components/OAuth"
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -35,7 +36,7 @@ const SignIn = () => {
       const user = userCredential.user
       if (user) {
         navigate("/")
-        console.log(user)
+        //console.log(user)
       }
     } catch (error) {
       toast.error("Error logging in", {
@@ -95,7 +96,7 @@ const SignIn = () => {
             </button>
           </div>
         </form>
-        {/* {Google OAuth} */}
+        <OAuth />
 
         <div className="w-full mt-8 mx-auto flex justify-center">
           <Link to="/sign-up" className="text-accent font-bold">
