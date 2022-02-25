@@ -19,13 +19,14 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-body,
-html {
-  font-family: "Montserrat", sans-serif;
-  background-color: #f2f4f8;
+html,
+body {
   margin: 0;
-  box-sizing: border-box;
+  margin-bottom: 80px;
+
   height: 100%;
+  background-color: rgb(241, 241, 241);
+  overflow: auto;
 }
 
 .emailInput {
@@ -38,4 +39,18 @@ html {
 
 .nameInput {
   background: url("./assets/svg/badgeIcon.svg") #ffffff 2.5% center no-repeat;
+}
+
+input[type="file"]::file-selector-button {
+  border: 2px solid #37cdbe;
+  padding: 0.2em 0.4em;
+  border-radius: 1em;
+  background-color: #37cdbe;
+  color: white;
+  transition: 1s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #006064;
+  border: 2px solid #006064;
 }

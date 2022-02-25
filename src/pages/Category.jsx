@@ -15,7 +15,7 @@ import { db } from "../firebase.config"
 import { toast } from "react-toastify"
 import Spinner from "../components/Spinner"
 
-const Offers = () => {
+const Category = () => {
   const navigate = useNavigate()
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -26,7 +26,7 @@ const Offers = () => {
         const listingsRef = collection(db, "listings")
         const q = query(
           listingsRef,
-          where("offer", "==", true),
+          where("type", "==", params.categoryName),
           orderBy("timestamp", "desc"),
           limit(10)
         )
@@ -44,9 +44,11 @@ const Offers = () => {
         toast.error("Could not fetch listings")
       }
     }
-
+    if (params.categoryName !== "rent" && params.categoryName !== "sale") {
+      navigate("/")
+    }
     fetchListings()
-  }, [])
+  }, [params.categoryName, navigate])
 
   const onDeleteListing = (id, name) => {
     console.log(id, name)
@@ -54,7 +56,11 @@ const Offers = () => {
   return (
     <div className="container mx-auto px-2.5">
       <header className="py-7">
-        <p className="font-extrabold text-3xl">Offers</p>
+        <p className="font-extrabold text-3xl">
+          {params.categoryName === "rent"
+            ? "Places for rent"
+            : "Places for sale"}
+        </p>
       </header>
       {loading ? (
         <Spinner />
@@ -76,10 +82,10 @@ const Offers = () => {
           </main>
         </>
       ) : (
-        <p>There are no current offers</p>
+        <p>No listings for {params.categoryName}</p>
       )}
     </div>
   )
 }
 
-export default Offers
+export default Category
