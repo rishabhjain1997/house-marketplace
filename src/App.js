@@ -12,6 +12,9 @@ import "react-toastify/dist/ReactToastify.css"
 import Category from "./pages/Category"
 import CreateListing from "./pages/CreateListing"
 import Listing from "./pages/Listing"
+import Contact from "./pages/Contact"
+import EditListing from "./pages/EditListing"
+
 function App() {
   return (
     <div>
@@ -32,6 +35,8 @@ function App() {
             path="/category/:categoryName/:listingId"
             element={<Listing />}
           />
+          <Route path="/edit-listing/:listingId" element={<EditListing />} />
+          <Route path="/contact/:landlordId" element={<Contact />} />
         </Routes>
         <Navbar />
       </Router>

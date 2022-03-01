@@ -1,12 +1,16 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { ReactComponent as DeleteIcon } from "../assets/svg/deleteIcon.svg"
+import { ReactComponent as EditIcon } from "../assets/svg/editIcon.svg"
 import bedIcon from "../assets/svg/bedIcon.svg"
 import bathtubIcon from "../assets/svg/bathtubIcon.svg"
 
-const ListingItem = ({ listing, id, onDelete }) => {
+const ListingItem = ({ listing, id, onDelete, onEdit }) => {
+  console.log(listing)
+  console.log(id)
+  console.log(listing.id)
   return (
-    <li className="relative">
+    <li className="relative mb-5">
       <Link
         to={`/category/${listing.type}/${id}`}
         className="flex justify-between items-center"
@@ -49,7 +53,14 @@ const ListingItem = ({ listing, id, onDelete }) => {
         <DeleteIcon
           className="absolute top-0 right-0"
           fill="rgb(231,76,60)"
-          onClick={() => onDelete(listing.id, listing.name)}
+          onClick={() => onDelete()}
+        />
+      )}
+      {onEdit && (
+        <EditIcon
+          className="absolute top-0 right-8"
+          fill="black"
+          onClick={() => onEdit(id)}
         />
       )}
     </li>

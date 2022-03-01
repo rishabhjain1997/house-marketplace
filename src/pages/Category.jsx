@@ -17,6 +17,7 @@ import Spinner from "../components/Spinner"
 
 const Category = () => {
   const navigate = useNavigate()
+  const [lastFetchedListing, setLastFetchedListing] = useState(null)
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
   const params = useParams()
@@ -38,6 +39,10 @@ const Category = () => {
             data: doc.data(),
           })
         })
+
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+        setLastFetchedListing(lastVisible)
+
         setListings(listings)
         setLoading(false)
       } catch (error) {
@@ -50,8 +55,29 @@ const Category = () => {
     fetchListings()
   }, [params.categoryName, navigate])
 
-  const onDeleteListing = (id, name) => {
-    console.log(id, name)
+  const onFetchMoreListings = async () => {
+    try {
+      setLoading(true)
+      const listingsRef = collection(db, "listings")
+      const q = query(
+        listingsRef,
+        where("type", "==", params.categoryName),
+        orderBy("timestamp", "desc"),
+        startAfter(lastFetchedListing),
+        limit(10)
+      )
+      const querySnap = await getDocs(q)
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+      setLastFetchedListing(lastVisible)
+      let listings = []
+      querySnap.forEach((doc) => {
+        listings.push({ data: doc.data(), id: doc.id })
+      })
+      setListings(listings)
+      setLoading(false)
+    } catch (error) {
+      toast.error("Could not fetch listings")
+    }
   }
   return (
     <div className="container mx-auto px-2.5">
@@ -74,12 +100,20 @@ const Category = () => {
                     key={listing.id}
                     listing={listing.data}
                     id={listing.id}
-                    onDelete={onDeleteListing}
                   />
                 )
               })}
             </ul>
           </main>
+
+          {lastFetchedListing && (
+            <p
+              className="mt-5 mx-auto block text-center p-4 px-3 bg-accent font-semibold rounded-lg text-base-100 w-max "
+              onClick={() => onFetchMoreListings()}
+            >
+              Load More
+            </p>
+          )}
         </>
       ) : (
         <p>No listings for {params.categoryName}</p>

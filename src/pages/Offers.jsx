@@ -19,6 +19,7 @@ const Offers = () => {
   const navigate = useNavigate()
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [lastFetchedListing, setLastFetchedListing] = useState(null)
   const params = useParams()
   useEffect(() => {
     const fetchListings = async () => {
@@ -38,6 +39,9 @@ const Offers = () => {
             data: doc.data(),
           })
         })
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+        setLastFetchedListing(lastVisible)
+
         setListings(listings)
         setLoading(false)
       } catch (error) {
@@ -48,6 +52,30 @@ const Offers = () => {
     fetchListings()
   }, [])
 
+  const onFetchMoreListings = async () => {
+    try {
+      setLoading(true)
+      const listingsRef = collection(db, "listings")
+      const q = query(
+        listingsRef,
+        where("offer", "==", true),
+        orderBy("timestamp", "desc"),
+        startAfter(lastFetchedListing),
+        limit(10)
+      )
+      const querySnap = await getDocs(q)
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+      setLastFetchedListing(lastVisible)
+      let listings = []
+      querySnap.forEach((doc) => {
+        listings.push({ data: doc.data(), id: doc.id })
+      })
+      setListings(listings)
+      setLoading(false)
+    } catch (error) {
+      toast.error("Could not fetch listings")
+    }
+  }
   const onDeleteListing = (id, name) => {
     console.log(id, name)
   }
@@ -74,6 +102,14 @@ const Offers = () => {
               })}
             </ul>
           </main>
+          {lastFetchedListing && (
+            <p
+              className="mt-5 mx-auto block text-center p-4 px-3 bg-accent font-semibold rounded-lg text-base-100 w-max "
+              onClick={() => onFetchMoreListings()}
+            >
+              Load More
+            </p>
+          )}
         </>
       ) : (
         <p>There are no current offers</p>

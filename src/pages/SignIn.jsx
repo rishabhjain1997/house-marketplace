@@ -36,7 +36,6 @@ const SignIn = () => {
       const user = userCredential.user
       if (user) {
         navigate("/")
-        //console.log(user)
       }
     } catch (error) {
       toast.error("Error logging in", {
